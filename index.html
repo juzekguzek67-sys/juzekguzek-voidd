@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOID DESIGN | Trwa kodowanie projektu</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-light: #f8f9fc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --purple-primary: #7c3aed;
+            --purple-hover: #6d28d9;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 800px;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .brand-logo-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin-bottom: 25px;
+        }
+
+        .brand-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid rgba(124, 58, 237, 0.3);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.15);
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-logo-container::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 70%, var(--purple-primary) 100%);
+            animation: spin 3s linear infinite;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .status-text {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--purple-primary);
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pulsing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--purple-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.6);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 8px rgba(124, 58, 237, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+            }
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 18px;
+            color: var(--text-main);
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        h1 span {
+            background: var(--purple-primary);
+            color: white;
+            padding: 2px 14px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
+        }
+
+        p.desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 580px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .cyber-progress {
+            width: 100%;
+            max-width: 450px;
+            height: 4px;
+            background: var(--border-color);
+            position: relative;
+            margin-bottom: 30px;
+            border-radius: 2px;
+            overflow: visible;
+        }
+
+        .cyber-progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 65%;
+            background: var(--purple-primary);
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 22px;
+            margin-bottom: 35px;
+        }
+
+        .tech-stack i {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .tech-stack i:hover {
+            color: var(--purple-primary);
+            transform: translateY(-3px);
+        }
+
+        .action-btn {
+            padding: 14px 28px;
+            background: var(--purple-primary);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .action-btn i {
+            font-size: 1.1rem;
+        }
+
+        .action-btn:hover {
+            background: var(--purple-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .creator-embed {
+            position: fixed;
+            bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 22px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--text-muted);
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .creator-embed:hover {
+            border-color: rgba(124, 58, 237, 0.4);
+            box-shadow: 0 6px 16px rgba(124, 58, 237, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .creator-icon {
+            color: var(--purple-primary);
+            font-weight: 800;
+        }
+
+        .creator-text strong {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .brand-logo-container {
+                width: 110px;
+                height: 110px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <div class="brand-logo-container">
+            <img src="https://i.imgur.com/5Yz7wXU.jpeg" alt="Logo" class="brand-logo">
+        </div>
+
+        <div class="status-text">
+            <div class="pulsing-dot"></div>
+            System w budowie
+        </div>
+
+        <h1>Trwa kodowanie <span>projektu</span></h1>
+
+        <p class="desc">
+            Wdrażamy nową architekturę, piszemy czysty kod i dopracowujemy każdy detal. Strona ruszy już niedługo.
+        </p>
+
+        <div class="cyber-progress">
+            <div class="cyber-progress-fill"></div>
+        </div>
+
+        <div class="tech-stack">
+            <i class="fa-brands fa-php" title="PHP 8.x"></i>
+            <i class="fa-brands fa-python" title="Python"></i>
+            <i class="fa-brands fa-js" title="JavaScript"></i>
+            <i class="fa-brands fa-html5" title="HTML5"></i>
+            <i class="fa-solid fa-server" title="SQLite"></i>
+        </div>
+
+        <a href="https://discord.gg/UqcgapyGj9" target="_blank" class="action-btn">
+            <i class="fa-brands fa-discord"></i>
+            Dołącz do naszego Discorda
+        </a>
+    </div>
+
+    <a href="https://juzekguzek.pl/" target="_blank" class="creator-embed">
+        <i class="fa-solid fa-code creator-icon"></i>
+        <span class="creator-text">Strona wykonana przez <strong>Juzekguzek</strong> | Web Developer</span>
+    </a>
+
+    <script>
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particlesArray = [];
+        const numberOfParticles = 35;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(124, 58, 237, 0.25)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particlesArray.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+    </script>
+</body>
+</html>
